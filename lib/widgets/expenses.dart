@@ -67,8 +67,21 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
-    Widget mainContent = const Center(
-      child: Text('No expenses found. Start adding some!'),
+    final colorScheme = Theme.of(context).colorScheme;
+
+    Widget mainContent = Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.receipt_long,
+            size: 60,
+            color: colorScheme.primary.withOpacity(0.35),
+          ),
+          const SizedBox(height: 16),
+          const Text('No expenses found. Start adding some!'),
+        ],
+      ),
     );
 
     if (_registeredExpenses.isNotEmpty) {
@@ -90,9 +103,21 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          Chart(expenses: _registeredExpenses),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Card(
+              clipBehavior: Clip.hardEdge,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Chart(expenses: _registeredExpenses),
+              ),
+            ),
+          ),
           Expanded(
-            child: mainContent,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: mainContent,
+            ),
           ),
         ],
       ),
