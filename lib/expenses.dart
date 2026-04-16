@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './expenses_list.dart';
 import './models/expense.dart';
 
 class Expenses extends StatefulWidget {
@@ -30,9 +31,11 @@ class _ExpensesState extends State<Expenses> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: const [
-          Text('The chart'),
-          Text('Expenses list...'),
+        children: [
+          const Text('The chart'),
+          Expanded(
+            child: ExpensesList(expenses: _registeredExpenses),
+          ),
         ],
       ),
     );
