@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import './chart_bar.dart';
 import 'package:expense_tracker/models/expense.dart';
 
@@ -69,7 +68,7 @@ class Chart extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Row(
-            children: buckets
+            children: buckets // for ... in
                 .map(
                   (bucket) => Expanded(
                     child: Padding(
