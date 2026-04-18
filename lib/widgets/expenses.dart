@@ -17,13 +17,13 @@ class _ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [
     Expense(
       title: 'Flutter Course',
-      amount: 19.99,
+      amount: 200000,
       date: DateTime.now(),
       category: Category.work,
     ),
     Expense(
       title: 'Cinema',
-      amount: 15.69,
+      amount: 75000,
       date: DateTime.now(),
       category: Category.leisure,
     ),
@@ -34,6 +34,11 @@ class _ExpensesState extends State<Expenses> {
       useSafeArea: true,
       isScrollControlled: true,
       context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(24),
+        ),
+      ),
       builder: (ctx) => NewExpense(onAddExpense: _addExpense),
     );
   }
@@ -71,7 +76,10 @@ class _ExpensesState extends State<Expenses> {
     final width = MediaQuery.of(context).size.width;
 
     Widget mainContent = const Center(
-      child: Text('No expenses found. Start adding some!'),
+      child: Text(
+        'No expenses yet!',
+        style: TextStyle(fontSize: 16),
+      ),
     );
 
     if (_registeredExpenses.isNotEmpty) {
@@ -83,31 +91,35 @@ class _ExpensesState extends State<Expenses> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter ExpenseTracker'),
-        actions: [
-          IconButton(
-            onPressed: _openAddExpenseOverlay,
-            icon: const Icon(Icons.add),
+        centerTitle: true,
+        title: const Text(
+          'Expense Tracker',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
       ),
-      body: width < 600
-          ? Column(
-              children: [
-                Chart(expenses: _registeredExpenses),
-                Expanded(
-                  child: mainContent,
-                ),
-              ],
-            )
-          : Row(children: [
-              Expanded(
-                child: Chart(expenses: _registeredExpenses),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _openAddExpenseOverlay,
+        child: const Icon(Icons.add),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: width < 600
+            ? Column(
+                children: [
+                  Chart(expenses: _registeredExpenses),
+                  Expanded(child: mainContent),
+                ],
+              )
+            : Row(
+                children: [
+                  Expanded(child: Chart(expenses: _registeredExpenses)),
+                  Expanded(child: mainContent),
+                ],
               ),
-              Expanded(
-                child: mainContent,
-              ),
-            ]),
+      ),
     );
   }
 }

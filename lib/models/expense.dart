@@ -4,6 +4,13 @@ import 'package:intl/intl.dart';
 
 final formatter = DateFormat.yMd();
 
+// 🔥 FORMAT RUPIAH
+final currencyFormatter = NumberFormat.currency(
+  locale: 'id_ID',
+  symbol: 'Rp ',
+  decimalDigits: 0,
+);
+
 const uuid = Uuid();
 
 enum Category { food, travel, leisure, work }
@@ -32,6 +39,11 @@ class Expense {
   String get formattedDate {
     return formatter.format(date);
   }
+
+  // 🔥 TAMBAHAN FORMAT RUPIAH
+  String get formattedAmount {
+    return currencyFormatter.format(amount);
+  }
 }
 
 class ExpenseBucket {
@@ -52,7 +64,7 @@ class ExpenseBucket {
     double sum = 0;
 
     for (final expense in expenses) {
-      sum += expense.amount; // sum = sum + expense.amount
+      sum += expense.amount;
     }
 
     return sum;

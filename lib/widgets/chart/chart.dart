@@ -28,36 +28,63 @@ class Chart extends StatelessWidget {
     return maxTotalExpense;
   }
 
+  // 🔥 TOTAL
+  double get totalExpenses {
+    double sum = 0;
+    for (final expense in expenses) {
+      sum += expense.amount;
+    }
+    return sum;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isDarkMode =
-        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(
         vertical: 16,
-        horizontal: 8,
+        horizontal: 12,
       ),
-      width: double.infinity,
-      height: 180,
+      height: 200,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(20),
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.primary.withOpacity(0.3),
-            Theme.of(context).colorScheme.primary.withOpacity(0.0)
+            Theme.of(context).colorScheme.primary.withOpacity(0.25),
+            Theme.of(context).colorScheme.primary.withOpacity(0.05),
           ],
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
         ),
       ),
       child: Column(
         children: [
+          // 🔥 TOTAL RUPIAH
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total Spending',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              Text(
+                currencyFormatter.format(totalExpenses),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                for (final bucket in buckets) // alternative to map()
+                for (final bucket in buckets)
                   ChartBar(
                     fill: bucket.totalExpenses == 0
                         ? 0
@@ -66,23 +93,14 @@ class Chart extends StatelessWidget {
               ],
             ),
           ),
+
           const SizedBox(height: 12),
+
           Row(
-            children: buckets // for ... in
+            children: buckets
                 .map(
                   (bucket) => Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Icon(
-                        categoryIcons[bucket.category],
-                        color: isDarkMode
-                            ? Theme.of(context).colorScheme.secondary
-                            : Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withOpacity(0.7),
-                      ),
-                    ),
+                    child: Icon(categoryIcons[bucket.category]),
                   ),
                 )
                 .toList(),
